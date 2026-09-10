@@ -1,0 +1,723 @@
+:root {
+  font-family: Inter, "Segoe UI", "Noto Sans SC", system-ui, sans-serif;
+  color: #273b35;
+  background: #f5f4ee;
+  font-synthesis: none;
+  font-weight: 400;
+  line-height: 1.6;
+  font-size: 14px;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input {
+  font: inherit;
+}
+button,
+a,
+input,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+button,
+summary {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+button:focus-visible,
+input:focus-visible,
+summary:focus-visible,
+a:focus-visible {
+  outline: 3px solid #b77429;
+  outline-offset: 4px;
+}
+button {
+  transition: background 0.15s;
+}
+a {
+  color: inherit;
+}
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+h2 {
+  font-size: 20px;
+  letter-spacing: -0.5px;
+  font-weight: 600;
+}
+h3 {
+  font-size: 16px;
+}
+p {
+  color: #627069;
+}
+.topbar {
+  max-width: 1440px;
+  margin: auto;
+  padding: 24px 4.5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #dedfd6;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 1.8px;
+}
+.brand b {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 3px;
+  font-weight: 500;
+}
+.brand-mark {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 26px;
+  background: #244f41;
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+}
+.version {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: #68796d;
+}
+.version span {
+  background: #e7e9df;
+  padding: 5px 9px;
+  margin-left: 12px;
+  border-radius: 5px;
+}
+main {
+  max-width: 1350px;
+  padding: 0 32px;
+  margin: auto;
+}
+.intro {
+  padding: 46px 0 32px;
+}
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #658071;
+  font-weight: 650;
+}
+.intro h1 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 3.4vw, 47px);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -1.6px;
+  margin: 12px 0;
+}
+.intro h1 em {
+  color: #35694f;
+  font-weight: 400;
+}
+.intro > p {
+  font-size: 15px;
+}
+.assumptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+.assumptions span {
+  padding: 4px 11px;
+  border: 1px solid #d9ded2;
+  border-radius: 4px;
+  color: #60745f;
+  font-size: 11px;
+}
+.workspace {
+  display: grid;
+  grid-template-columns: 305px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.panel {
+  background: #fffefa;
+  border: 1px solid #dedfd6;
+  border-radius: 10px;
+}
+.controls {
+  padding: 25px;
+}
+.section-heading {
+  padding-bottom: 12px;
+}
+.section-heading h2 {
+  margin: 5px 0;
+}
+.section-heading p {
+  font-size: 12px;
+}
+.field {
+  padding: 16px 0;
+  border-bottom: 1px solid #ecece4;
+}
+.field > label {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.field label span {
+  font-size: 10px;
+  font-weight: 400;
+  color: #6b786f;
+  margin-left: auto;
+}
+.field label i {
+  font-family: Georgia, serif;
+}
+.field input[type="number"] {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #d9dfd4;
+  border-radius: 5px;
+  padding: 9px 11px;
+  color: #294b3b;
+  background: #fafbf6;
+  font-variant-numeric: tabular-nums;
+}
+.field-hint {
+  font-size: 10px;
+  color: #6b786f;
+  margin-top: 7px;
+}
+.field .range-label {
+  margin-top: 14px;
+  font-weight: 400;
+  font-size: 11px;
+  justify-content: space-between;
+}
+.range-label strong {
+  font-variant-numeric: tabular-nums;
+  color: #35694f;
+  font-size: 14px;
+}
+input[type="range"] {
+  width: 100%;
+  accent-color: #3e7258;
+  cursor: pointer;
+  margin: 8px 0;
+}
+.range-ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #738071;
+}
+.seed-row {
+  display: flex;
+  gap: 7px;
+}
+.quiet-button {
+  white-space: nowrap;
+  padding: 5px 10px;
+  border: 1px solid #d9dfd4;
+  background: #f2f4eb;
+  border-radius: 5px;
+  font-size: 11px;
+  color: #3f6150;
+}
+.primary-button {
+  margin-top: 20px;
+  width: 100%;
+  border: 0;
+  border-radius: 5px;
+  padding: 12px 16px;
+  background: #2c5b45;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+.primary-button:hover {
+  background: #214832;
+}
+.reset-button {
+  display: block;
+  margin: 12px auto 0;
+  border: 0;
+  background: transparent;
+  color: #647567;
+  font-size: 12px;
+}
+.control-note {
+  font-size: 10px;
+  text-align: center;
+  margin-top: 12px;
+}
+.errors {
+  font-size: 12px;
+  border-left: 3px solid #b55a35;
+  padding: 8px;
+  margin-top: 12px;
+  background: #fff2ea;
+}
+.errors p {
+  color: #8c3f25;
+}
+.observation {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+.plot-panel {
+  padding: 26px 28px 18px;
+}
+.plot-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.plot-heading h2 {
+  margin-top: 5px;
+}
+.live-tag {
+  font-size: 10px;
+  color: #4c7157;
+  border: 1px solid #d8e4d1;
+  background: #f2f6eb;
+  padding: 4px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.plot-legend {
+  display: flex;
+  gap: 22px;
+  justify-content: flex-end;
+  font-size: 10px;
+  color: #67776a;
+  margin-top: 25px;
+}
+.plot-legend span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.legend-line {
+  width: 20px;
+  height: 2px;
+  background: #417351;
+}
+.legend-dash {
+  width: 20px;
+  border-top: 1px dashed #9caa8c;
+}
+.trajectory svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+  touch-action: pan-y;
+}
+.trajectory svg text {
+  font-size: 12px;
+  fill: #6e7e70;
+  font-family: inherit;
+}
+.gridline {
+  stroke: #e5e8df;
+  stroke-width: 1;
+}
+.initial-line {
+  stroke: #a4af91;
+  stroke-dasharray: 5 5;
+}
+.frequency-line {
+  fill: none;
+  stroke: #437851;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.cursor-line {
+  stroke: #aab69f;
+  stroke-dasharray: 3 4;
+}
+.cursor-dot {
+  fill: #42754e;
+  stroke: #fffefa;
+  stroke-width: 2;
+}
+.inspection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  color: #68786a;
+}
+.inspection strong {
+  color: #345c43;
+  margin-left: 8px;
+}
+.inspection output {
+  font-variant-numeric: tabular-nums;
+}
+.inspection output span {
+  margin-left: 12px;
+  color: #31593f;
+}
+.result-summary {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 1fr;
+  gap: 12px;
+  padding: 20px 0;
+  margin-top: 16px;
+  border-top: 1px solid #e2e5da;
+  border-bottom: 1px solid #e2e5da;
+}
+.result-summary > div {
+  display: flex;
+  flex-direction: column;
+}
+.result-summary span {
+  font-size: 10px;
+  color: #72806f;
+}
+.result-summary strong {
+  font-family: Georgia, serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: #315b40;
+  font-variant-numeric: tabular-nums;
+  margin: 4px 0;
+}
+.result-summary strong.status-text {
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 42px;
+  margin: 0;
+}
+.result-summary small {
+  font-size: 10px;
+  color: #6c796b;
+}
+.plot-note {
+  font-size: 11px;
+  line-height: 1.8;
+  margin-top: 14px;
+}
+.empty-plot {
+  min-height: 355px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  background: linear-gradient(0deg, #f7f8f0 1px, transparent 1px);
+  background-size: 100% 60px;
+  margin-top: 25px;
+  border-bottom: 1px solid #e2e5da;
+}
+.empty-symbol {
+  font-size: 60px;
+  font-family: Georgia, serif;
+  color: #789475;
+  line-height: 1.2;
+  margin-bottom: 15px;
+}
+.empty-plot h3 {
+  font-weight: 500;
+  font-size: 18px;
+}
+.empty-plot p {
+  font-size: 12px;
+  margin-top: 10px;
+}
+.empty-axis {
+  font-size: 10px;
+  color: #82907b;
+  margin-top: 35px;
+  letter-spacing: 1px;
+}
+.learning-note {
+  display: flex;
+  gap: 16px;
+  background: #eaf0e2;
+  padding: 20px 24px;
+  border-radius: 8px;
+}
+.note-number {
+  border: 1px solid #9bb18e;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  text-align: center;
+  flex-shrink: 0;
+  color: #648454;
+}
+.learning-note h3 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.learning-note p {
+  font-size: 12px;
+  color: #607653;
+}
+.model-panel {
+  padding: 24px 28px;
+}
+.model-panel h2 {
+  margin: 5px 0;
+}
+.model-panel > p {
+  font-size: 12px;
+  margin-bottom: 14px;
+}
+.theory {
+  margin-top: 10px;
+  font-size: 11px;
+}
+.theory > summary {
+  color: #58764e;
+  list-style-position: outside;
+  margin-left: 12px;
+}
+.theory-body {
+  margin-top: 10px;
+  border-left: 2px solid #d6e3cb;
+  padding-left: 12px;
+}
+.theory-body h4 {
+  font-size: 11px;
+  color: #405c3a;
+}
+.theory-body p {
+  font-size: 12px;
+  line-height: 1.9;
+  margin: 8px 0;
+}
+.derivation {
+  margin-top: 10px;
+}
+.derivation > summary {
+  color: #526b47;
+}
+.formula {
+  overflow-x: auto;
+  max-width: 100%;
+  font-size: 12px;
+  padding: 2px 0;
+}
+.model-panel .formula {
+  font-size: 15px;
+}
+.katex-display {
+  margin: 0.7em 0;
+}
+.katex-display > .katex {
+  text-align: left;
+}
+footer {
+  max-width: 1286px;
+  margin: 40px auto 0;
+  padding: 20px 0 28px;
+  border-top: 1px solid #dcdfd2;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #798573;
+}
+@media (min-width: 1500px) {
+  .intro {
+    padding-top: 55px;
+  }
+  .workspace {
+    grid-template-columns: 325px minmax(0, 1fr);
+  }
+}
+@media (max-width: 900px) {
+  main {
+    padding: 0 20px;
+  }
+  .workspace {
+    grid-template-columns: 265px minmax(0, 1fr);
+    gap: 16px;
+  }
+  .controls {
+    padding: 18px;
+  }
+  .plot-panel,
+  .model-panel {
+    padding: 20px;
+  }
+  .plot-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .result-summary {
+    grid-template-columns: 1fr 1fr;
+  }
+  .result-summary > div:last-child {
+    grid-column: 1/-1;
+  }
+  .inspection {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  footer {
+    margin: 30px 20px 0;
+  }
+  .version {
+    display: none;
+  }
+}
+@media (max-width: 650px) {
+  .topbar {
+    padding: 18px 20px;
+  }
+  .intro {
+    padding-top: 30px;
+  }
+  .intro h1 {
+    font-size: 34px;
+    letter-spacing: -1px;
+  }
+  .intro > p {
+    font-size: 13px;
+  }
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+  .controls {
+    padding: 22px;
+  }
+  .empty-plot {
+    min-height: 280px;
+  }
+  .plot-heading h2 {
+    font-size: 18px;
+  }
+  .plot-panel,
+  .model-panel {
+    padding: 20px 16px;
+  }
+  .learning-note {
+    padding: 18px;
+  }
+  .result-summary strong {
+    font-size: 23px;
+  }
+  .plot-legend {
+    justify-content: flex-start;
+  }
+  footer {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .model-panel .formula {
+    font-size: 12px;
+  }
+}
+/* Absorption classes describe the entire trajectory through the observation horizon. */
+.frequency-line {
+  stroke-width: 1;
+  opacity: 0.42;
+}
+.frequency-line.lost {
+  stroke: #cb594e;
+}
+.frequency-line.fixed {
+  stroke: #47975c;
+}
+.frequency-line.segregating {
+  stroke: #8b9095;
+}
+.frequency-line.highlighted {
+  stroke-width: 3;
+  opacity: 1;
+}
+.frequency-line.highlighted.lost {
+  stroke: #9e2923;
+}
+.frequency-line.highlighted.fixed {
+  stroke: #1a6737;
+}
+.frequency-line.highlighted.segregating {
+  stroke: #424950;
+}
+.legend-line.lost {
+  background: #cb594e;
+}
+.legend-line.fixed {
+  background: #47975c;
+}
+.legend-line.segregating {
+  background: #8b9095;
+}
+.cursor-dot.lost {
+  fill: #9e2923;
+}
+.cursor-dot.fixed {
+  fill: #1a6737;
+}
+.cursor-dot.segregating {
+  fill: #424950;
+}
+.result-summary .summary-fixed {
+  color: #1a6737;
+}
+.result-summary .summary-lost {
+  color: #9e2923;
+}
+.result-summary .summary-segregating {
+  color: #424950;
+}
+.plot-legend {
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
+.trajectory-selection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0 16px;
+  font-size: 12px;
+}
+.trajectory-selection select {
+  max-width: 100%;
+  padding: 6px 10px;
+  background: #fafbf6;
+  color: #294b3b;
+  border: 1px solid #d9dfd4;
+  border-radius: 4px;
+  font: inherit;
+}
+.trajectory-selection span {
+  color: #627069;
+  font-size: 11px;
+}
+select:focus-visible {
+  outline: 3px solid #b77429;
+  outline-offset: 4px;
+}
