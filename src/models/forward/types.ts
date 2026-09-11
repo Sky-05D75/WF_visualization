@@ -20,3 +20,22 @@ export interface NeutralRunParameters extends NeutralParameters {
   readonly generations: number;
   readonly seed: number;
 }
+
+export interface SelectionParameters {
+  readonly enabled: boolean;
+  readonly s: number;
+  readonly h: number;
+}
+export interface MutationParameters {
+  readonly enabled: boolean;
+  /** A -> a probability per generation. */
+  readonly mu: number;
+  /** a -> A probability per generation. */
+  readonly nu: number;
+}
+export interface EvolutionParameters extends NeutralParameters {
+  readonly selection?: SelectionParameters;
+  readonly mutation?: MutationParameters;
+}
+export interface RunParameters
+  extends NeutralRunParameters, EvolutionParameters {}

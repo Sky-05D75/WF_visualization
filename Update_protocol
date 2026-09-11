@@ -1,8 +1,0 @@
-cd /home/wujieye/WF_visualization
-
-git pull
-# 用 VS Code 修改文件
-
-git add .
-git commit -m "xxxxxxxxx"
-git push

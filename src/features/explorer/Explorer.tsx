@@ -31,7 +31,7 @@ export function Explorer() {
               <h3>
                 {experiment.busy
                   ? `模拟进度：${experiment.completed} / ${experiment.parameters.replicates}`
-                  : "Wright–Fisher 中性漂变模拟"}
+                  : "Wright–Fisher 正向模拟"}
               </h3>
               <p>
                 设定参数后，单击“运行模拟”或按空格开始。
@@ -42,8 +42,8 @@ export function Explorer() {
             </div>
           )}
           <p className="plot-note">
-            颜色依据截至第 T
-            代的吸收状态，应用于整条轨迹：丢失为红色，固定为绿色，未吸收为灰色。加粗轨迹为选定的单次实现，不代表平均值。
+            颜色依据第 T 代的状态：A
+            丢失为红色、固定为绿色、多态为灰色。突变可使轨迹离开边界；首次到达不等于永久吸收。加粗轨迹不是平均值。
           </p>
         </div>
         <div className="learning-note">
@@ -60,7 +60,31 @@ export function Explorer() {
           <span className="eyebrow">03 / THEORY</span>
           <h2>模型假设与数学原理</h2>
           <p>漂变来自随机繁殖中的有限抽样。展开查看模型假设与数学推导。</p>
-          <TheoryDisclosure theoryId="model" />
+          <div className="lifecycle-strip" aria-label="当前生命周期">
+            <span>随机交配</span>
+            <b>→</b>
+            <span>
+              {experiment.parameters.selection?.enabled
+                ? "自然选择"
+                : "选择关闭"}
+            </span>
+            <b>→</b>
+            <span>
+              {experiment.parameters.mutation?.enabled
+                ? "双向突变"
+                : "突变关闭"}
+            </span>
+            <b>→</b>
+            <span>遗传漂变</span>
+          </div>
+          <TheoryDisclosure
+            theoryId={
+              experiment.parameters.selection?.enabled ||
+              experiment.parameters.mutation?.enabled
+                ? "lifecycle"
+                : "model"
+            }
+          />
         </div>
       </section>
     </div>

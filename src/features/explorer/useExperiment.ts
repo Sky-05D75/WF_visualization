@@ -6,12 +6,29 @@ import {
   type EnsembleResult,
 } from "../../simulation/runEnsemble";
 
-export type Draft = Record<Exclude<keyof EnsembleParameters, "seed">, string>;
+export interface Draft {
+  populationSize: string;
+  initialAlleleCount: string;
+  generations: string;
+  replicates: string;
+  selectionEnabled: boolean;
+  s: string;
+  h: string;
+  mutationEnabled: boolean;
+  mu: string;
+  nu: string;
+}
 const initialDraft: Draft = {
   populationSize: "100",
   initialAlleleCount: "100",
   generations: "200",
   replicates: "20",
+  selectionEnabled: false,
+  s: "0.1",
+  h: "0.5",
+  mutationEnabled: false,
+  mu: "0.001",
+  nu: "0.001",
 };
 export function parseDraft(draft: Draft): EnsembleParameters {
   const number = (value: string) => (value.trim() === "" ? NaN : Number(value));
@@ -21,6 +38,16 @@ export function parseDraft(draft: Draft): EnsembleParameters {
     generations: number(draft.generations),
     replicates: number(draft.replicates),
     seed: 0,
+    selection: {
+      enabled: draft.selectionEnabled,
+      s: number(draft.s),
+      h: number(draft.h),
+    },
+    mutation: {
+      enabled: draft.mutationEnabled,
+      mu: number(draft.mu),
+      nu: number(draft.nu),
+    },
   };
 }
 export function useExperiment() {
@@ -39,7 +66,7 @@ export function useExperiment() {
     setCompleted(0);
     setFailure(null);
   }
-  function update(key: keyof Draft, value: string) {
+  function update<K extends keyof Draft>(key: K, value: Draft[K]) {
     cancel();
     setDraft((previous) => ({ ...previous, [key]: value }));
     setResult(null);
@@ -57,7 +84,11 @@ export function useExperiment() {
       const next = await runEnsemble(
         { ...parameters, seed },
         controller.signal,
-        setCompleted,
+        (count) => {
+          // Batch progress renders for 100 replicates; simulation still yields after each one.
+          if (count % 5 === 0 || count === parameters.replicates)
+            setCompleted(count);
+        },
       );
       if (active.current === controller) setResult(next);
     } catch (error) {

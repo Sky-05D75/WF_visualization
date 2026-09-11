@@ -1,12 +1,15 @@
 import { memo } from "react";
-import { neutralContent, type TheoryId } from "./neutralContent";
+import { neutralContent } from "./neutralContent";
+import { evolutionContent } from "./evolutionContent";
+export const theoryContent = { ...neutralContent, ...evolutionContent };
+type TheoryId = keyof typeof theoryContent;
 import { MathFormula } from "./MathFormula";
 export const TheoryDisclosure = memo(function TheoryDisclosure({
   theoryId,
 }: {
   theoryId: TheoryId;
 }) {
-  const content = neutralContent[theoryId];
+  const content = theoryContent[theoryId];
   return (
     <details className="theory">
       <summary>理解{content.title}</summary>

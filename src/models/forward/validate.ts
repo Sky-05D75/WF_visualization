@@ -1,4 +1,6 @@
-import type { NeutralRunParameters } from "./types";
+import { selectionErrors } from "./processes/selection";
+import { mutationErrors } from "./processes/mutation";
+import type { RunParameters } from "./types";
 
 // UI/runtime limits, not biological assumptions. Bound Bernoulli work on the main thread.
 export const LIMITS = {
@@ -6,7 +8,7 @@ export const LIMITS = {
   generations: 2000,
   draws: 2_000_000,
 } as const;
-export function validateRun(p: NeutralRunParameters): string[] {
+export function validateRun(p: RunParameters): string[] {
   const errors: string[] = [];
   if (
     !Number.isInteger(p.populationSize) ||
@@ -30,5 +32,9 @@ export function validateRun(p: NeutralRunParameters): string[] {
     errors.push("请减小 N 或 T，使 2N × T ≤ 2,000,000，保持交互流畅。");
   if (!Number.isInteger(p.seed) || p.seed < 0 || p.seed > 0xffffffff)
     errors.push("随机种子必须是 0–4294967295 的整数。");
-  return errors;
+  return [
+    ...errors,
+    ...selectionErrors(p.selection),
+    ...mutationErrors(p.mutation),
+  ];
 }

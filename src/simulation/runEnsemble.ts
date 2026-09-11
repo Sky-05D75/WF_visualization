@@ -1,10 +1,10 @@
-import type { NeutralRunParameters } from "../models/forward/types";
+import type { RunParameters } from "../models/forward/types";
 import { validateRun } from "../models/forward/validate";
 import { createRandom } from "../models/shared/random";
 import { runForward } from "./runForward";
 import type { NeutralResult } from "./result";
 
-export interface EnsembleParameters extends NeutralRunParameters {
+export interface EnsembleParameters extends RunParameters {
   readonly replicates: number;
 }
 export interface EnsembleResult {
@@ -29,7 +29,15 @@ export async function runEnsemble(
 ): Promise<EnsembleResult> {
   const errors = validateEnsemble(input);
   if (errors.length) throw new RangeError(errors.join(" "));
-  const parameters = Object.freeze({ ...input });
+  const parameters = Object.freeze({
+    ...input,
+    ...(input.selection
+      ? { selection: Object.freeze({ ...input.selection }) }
+      : {}),
+    ...(input.mutation
+      ? { mutation: Object.freeze({ ...input.mutation }) }
+      : {}),
+  });
   const seedSource = createRandom(parameters.seed);
   const seeds = new Set<number>();
   const runs: NeutralResult[] = [];
@@ -47,6 +55,8 @@ export async function runEnsemble(
         initialAlleleCount: parameters.initialAlleleCount,
         generations: parameters.generations,
         seed,
+        selection: parameters.selection,
+        mutation: parameters.mutation,
       }),
     );
     onProgress?.(runs.length);

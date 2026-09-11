@@ -1,3 +1,4 @@
+import { EvolutionControls } from "./EvolutionControls";
 import type { FormEvent } from "react";
 import { LIMITS } from "../../models/forward/validate";
 import { TheoryDisclosure } from "../../theory/TheoryDisclosure";
@@ -140,6 +141,7 @@ export function ParameterControls({
         </div>
         <TheoryDisclosure theoryId="replicates" />
       </div>
+      <EvolutionControls experiment={e} />
       {e.failure && <p role="alert">{e.failure}</p>}
       {e.errors.length > 0 && (
         <div className="errors" role="alert">

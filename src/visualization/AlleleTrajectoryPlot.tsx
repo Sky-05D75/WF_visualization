@@ -1,3 +1,4 @@
+import { generationProbabilities } from "../models/forward/evolutionWrightFisher";
 import { useMemo, useState } from "react";
 import type { EnsembleResult } from "../simulation/runEnsemble";
 import { trajectoryData } from "./trajectoryData";
@@ -10,7 +11,7 @@ const box = {
   top: 32,
   bottom: 52,
 };
-const statusLabels = { fixed: "固定", lost: "丢失", segregating: "未吸收" };
+const statusLabels = { fixed: "固定", lost: "丢失", segregating: "多态" };
 export function AlleleTrajectoryPlot({ result }: { result: EnsembleResult }) {
   const [selected, setSelected] = useState(0);
   const [highlighted, setHighlighted] = useState(0);
@@ -27,7 +28,7 @@ export function AlleleTrajectoryPlot({ result }: { result: EnsembleResult }) {
         return {
           index,
           data,
-          status: run.absorption?.kind ?? ("segregating" as const),
+          status: run.finalStatus,
           path: data
             .map(
               (d, i) =>
@@ -43,6 +44,10 @@ export function AlleleTrajectoryPlot({ result }: { result: EnsembleResult }) {
   const t = Math.min(selected, result.parameters.generations);
   const point = focus.data[t];
   const run = result.runs[selectedIndex];
+  const probabilities = generationProbabilities(
+    point.frequency,
+    result.parameters,
+  );
   const xticks = Array.from(
     new Set(
       Array.from({ length: 6 }, (_, i) =>
@@ -63,7 +68,7 @@ export function AlleleTrajectoryPlot({ result }: { result: EnsembleResult }) {
         </span>
         <span>
           <b className="legend-line segregating" />
-          未吸收
+          多态
         </span>
         <span>
           <b className="legend-dash" />
@@ -99,7 +104,7 @@ export function AlleleTrajectoryPlot({ result }: { result: EnsembleResult }) {
         <title id="trajectory-title">A 的等位基因频率轨迹</title>
         <desc id="trajectory-description">
           {result.runs.length}{" "}
-          条独立轨迹。红色表示丢失，绿色表示固定，灰色表示截至模拟终点未吸收。第{" "}
+          条独立轨迹。红色表示丢失，绿色表示固定，灰色表示末代多态。第{" "}
           {selectedIndex + 1} 条轨迹加粗加深。横轴为世代，纵轴为频率。
         </desc>
         {[0, 0.25, 0.5, 0.75, 1].map((p) => (
@@ -184,8 +189,10 @@ export function AlleleTrajectoryPlot({ result }: { result: EnsembleResult }) {
         </select>
         <span>
           {run.absorption
-            ? `首次${statusLabels[run.absorption.kind]}：第 ${run.absorption.generation} 代`
-            : `截至第 ${result.parameters.generations} 代未吸收`}
+            ? `永久吸收：第 ${run.absorption.generation} 代（${statusLabels[run.absorption.kind]}）`
+            : run.firstBoundary
+              ? `首次到达${statusLabels[run.firstBoundary.kind]}边界：第 ${run.firstBoundary.generation} 代（非吸收）`
+              : "观察窗口内未到达边界"}
         </span>
       </div>
       <div className="inspection">
@@ -197,6 +204,28 @@ export function AlleleTrajectoryPlot({ result }: { result: EnsembleResult }) {
           <span>pₜ = {point.frequency.toFixed(4)}</span>
         </output>
       </div>
+      {(result.parameters.selection?.enabled ||
+        result.parameters.mutation?.enabled) && (
+        <div className="transition-readout">
+          <strong>
+            第 {t} 代的单代转移概率
+            {t === result.parameters.generations ? "（下一代未模拟）" : ""}
+          </strong>
+          <span>
+            pₜ = {point.frequency.toFixed(6)} → pₛ ={" "}
+            {probabilities.afterSelection.toFixed(6)} → pₛₘ ={" "}
+            {probabilities.afterMutation.toFixed(6)}
+          </span>
+          <span>
+            E[pₜ₊₁ | pₜ] = {probabilities.afterMutation.toFixed(6)}；Var ={" "}
+            {(
+              (probabilities.afterMutation *
+                (1 - probabilities.afterMutation)) /
+              (2 * result.parameters.populationSize)
+            ).toExponential(3)}
+          </span>
+        </div>
+      )}
       <input
         id="inspect-generation"
         aria-label="观察世代"

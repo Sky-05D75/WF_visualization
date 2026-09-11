@@ -721,3 +721,66 @@ select:focus-visible {
   outline: 3px solid #b77429;
   outline-offset: 4px;
 }
+.process-switch {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+}
+.process-switch input {
+  width: 18px;
+  height: 18px;
+  accent-color: #2c5b45;
+}
+.process-parameters {
+  border: 0;
+  margin: 12px 0 0;
+  padding: 0;
+  min-width: 0;
+}
+.process-parameters legend {
+  font-size: 11px;
+  color: #647567;
+  margin-bottom: 8px;
+}
+.process-parameters label {
+  display: block;
+  margin: 10px 0 5px;
+  font-size: 12px;
+}
+.fitness-readout {
+  font-size: 12px;
+  padding: 8px 10px;
+  margin-top: 10px;
+  background: #f0f3e9;
+  font-variant-numeric: tabular-nums;
+  border-radius: 4px;
+}
+.lifecycle-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 14px 0;
+  font-size: 12px;
+}
+.lifecycle-strip span {
+  background: #edf2e6;
+  padding: 5px 8px;
+  border-radius: 4px;
+}
+.transition-readout {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  margin: 12px 0;
+  padding: 12px;
+  background: #f4f6ed;
+  border-radius: 5px;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}

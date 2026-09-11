@@ -2,3 +2,6 @@ node_modules/
 dist/
 coverage/
 *.local
+/Update_protocol
+/WF_visualization_SPEC_v0.1.md
+/WF_visualization_SPEC_v0.2_Selection_Mutation_CN.md

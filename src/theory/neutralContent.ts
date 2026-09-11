@@ -4,7 +4,7 @@ export const neutralContent = {
     title: "种群大小 N",
     biology: [
       "N 是二倍体个体数。对一个位点，每个个体有两个等位基因拷贝，所以基因池共有 2N 个拷贝。",
-      "本实验每代 N 恒定，世代不重叠。下一代独立、有放回地从上一代基因池抽样。",
+      "本实验每代 N 恒定，世代不重叠。下一代根据选择与突变转换后的概率独立抽样；关闭这两个过程时，等价于从上一代基因池有放回抽样。",
     ],
     mathematics: [
       {
@@ -12,7 +12,7 @@ export const neutralContent = {
         formula: String.raw`X_t\in\{0,1,\ldots,2N\},\quad p_t=\frac{X_t}{2N}`,
       },
       {
-        text: "在相同当前频率下，N 越小，一代频率变化的条件方差越大。",
+        text: "中性且无突变时，给定相同当前频率，N 越小，一代频率变化的条件方差越大；开启扩展后，将公式中的 pₜ 替换为转换后的 pₛₘ。",
         formula: String.raw`\operatorname{Var}(p_{t+1}\mid p_t)=\frac{p_t(1-p_t)}{2N}`,
       },
     ],
@@ -34,7 +34,7 @@ export const neutralContent = {
     title: "模拟代数 T",
     biology: [
       "一次更新代表完整的一代替换。第 0 代是初始种群，T 是本次实验向前推进的代数。",
-      "到达 T 时仍未固定或丢失，只意味着本次观察窗口内没有吸收。",
+      "到达 T 时两个等位基因可能仍共存。开启突变后，曾到达边界的轨迹也可能回到多态状态。",
     ],
     mathematics: [
       {
@@ -47,15 +47,15 @@ export const neutralContent = {
     title: "独立重复次数 R",
     biology: [
       "各条轨迹具有相同的 N、X₀ 和 T，分别进行随机抽样。R 为模拟重复次数，不是种群大小。每次运行自动生成随机种子，各重复使用不同的伪随机流。",
-      "轨迹按观察窗口内的吸收状态分类。尚未吸收表示截至 T 仍有两个等位基因共存，不表示以后不会固定或丢失。",
+      "轨迹按末代状态分类；多态表示第 T 代两个等位基因共存。存在突变时，边界可能不再吸收。",
     ],
     mathematics: [
       {
-        text: "每个重复均遵循相同的一代条件分布。",
-        formula: String.raw`X_{t+1}^{(r)}\mid p_t^{(r)}\sim\operatorname{Binomial}(2N,p_t^{(r)}),\quad r=1,\ldots,R`,
+        text: "每个重复均遵循相同的一代条件分布；pₛₘ 是选择与突变转换后的概率，关闭两者时等于 pₜ。",
+        formula: String.raw`X_{t+1}^{(r)}\mid p_t^{(r)}\sim\operatorname{Binomial}(2N,p_{sm}^{(r)}),\quad r=1,\ldots,R`,
       },
       {
-        text: "固定、丢失与未吸收的计数之和等于 R；有限 T 下的固定比例不是最终固定概率。",
+        text: "末代固定、丢失与多态的计数之和等于 R；有限 T 下的固定比例不是最终固定概率。",
       },
     ],
   },

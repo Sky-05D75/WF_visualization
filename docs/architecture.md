@@ -3,8 +3,8 @@
 ## 当前分层
 
 - `src/models/shared/`：随机源与二项抽样。随机源显式注入，不引用浏览器或 React。
-- `src/models/forward/`：科学状态、参数、单代中性转移；`validate.ts` 另定义本次浏览器运行约束。
-- `src/simulation/`：`runForward.ts` 保持单轨迹内核；`runEnsemble.ts` 验证 1–100 次重复，派生互异种子并顺序运行，每条轨迹之间让出执行时间、检查取消信号和报告进度。结果保留参数快照、T+1 个状态与首次吸收事件。
+- `src/models/forward/`：科学状态、参数、中性与选择–突变单代转移；`validate.ts` 另定义本次浏览器运行约束。
+- `src/simulation/`：`runForward.ts` 保持单轨迹内核；`runEnsemble.ts` 验证 1–100 次重复，派生互异种子并顺序运行，每条轨迹之间让出执行时间、检查取消信号和报告进度。结果保留参数快照、T+1 个状态、首次到达边界、永久吸收事件与末代分类。
 - `src/features/explorer/`：输入草稿与实验生命周期。修改参数清除旧结果，运行计算只在用户事件中发生。
 - `src/visualization/`：只消费结果，生成 SVG 与逐代读数；不生成随机数，不推进模型。
 - `src/theory/`：内容结构、参数与模型的稳定 theoryId、折叠组件和公式渲染。
@@ -12,11 +12,19 @@
 
 模型不依赖 React、DOM、绘图库或理论组件。模拟结果中的模型标识、随机算法标识、种子和冻结参数快照使一次实验可核对。不存在全局可变随机源。
 
+## v0.2 科学模块
+
+- `processes/selection.ts` 与 `processes/mutation.ts` 是独立纯频率转换。`evolutionWrightFisher.ts` 严格按选择 → 突变 → 一次二项抽样组合；随机交配给出期望 Hardy–Weinberg 比例。
+- `RunParameters` 扩展原中性参数，允许可选 selection/mutation 配置。旧调用不传扩展仍有效；模块关闭或系数为零时逐路径回归中性过程。快照冻结嵌套参数，异步批次不读取可变输入。
+- `SimulationResult.firstBoundary` 描述首次边界访问，`absorption` 只记录无法被相应反向突变解除的边界，`finalStatus` 描述末代状态。绘图和计数均依赖末代状态，不能用 firstBoundary 替代。
+- 单代读数复用 `generationProbabilities`，显示选定轨迹的 pₜ、pₛ、pₛₘ 与条件方差；它不抽样、不推进模型。
+- 理论内容由中性与扩展注册表合并，避免在扩展启用时仍声称 E[pₜ₊₁|pₜ]=pₜ。
+
 ## 未来扩展
 
 这里只记录边界，不创建未实现的占位模块：
 
-- Selection、mutation：在 `models/forward/processes/` 定义频率转换；先明确生命周期顺序和适用假设，再与抽样组合。不能默认这些变换可交换。
+- 扩展选择模型时需另定义参数化与适合度约束；当前只覆盖 0≤h≤1，不支持超显性或欠显性。
 - Migration：引入多种群状态和迁移结构；不把单一频率状态强行用于所有种群。
 - Demographic history：在 `models/demography/` 定义 N(t)。转移时显式区分亲代分母 2Nₜ 和子代抽样大小 2Nₜ₊₁。
 - Backward-time：在 `models/backward/` 定义谱系/树、祖先事件和相应运行器，区别离散 WF 谱系与连续时间 Kingman 近似。单条等位基因频率轨迹不足以重建祖先树。
@@ -31,4 +39,4 @@
 
 ## 后续阶段
 
-当前已加入 1–100 条独立轨迹与吸收分类计数。正式增加科学过程前，先补充规格与理论验证，不提前实现选择/突变等过程。
+当前已实现中性、选择、突变及其组合，保留 1–100 条独立轨迹。未来引入其他科学过程时先补充规格与理论验证。
